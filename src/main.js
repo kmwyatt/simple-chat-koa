@@ -23,11 +23,16 @@ app.use(async (ctx) => {
 
 app.ws.use(
     route.all('/ws', (ctx) => {
-        ctx.websocket.on('message', (message) => {
-            console.log(message.toString());
-        });
+        ctx.websocket.on('message', (data) => {
+            const { message, nickname } = JSON.parse(data);
 
-        ctx.websocket.send('Hello, client!');
+            const dataToSend = JSON.stringify({
+                message,
+                nickname,
+            });
+
+            ctx.websocket.send(dataToSend);
+        });
     }),
 );
 
