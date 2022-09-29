@@ -12,10 +12,24 @@
 
     const chats = [];
 
+    const adjectives = ['재미있는', '기가막힌', '잘생긴', '멋진'];
+    const animals = ['펭귄', '강아지', '사자', '독수리'];
+
+    function pickRandom(array) {
+        const randomIndex = Math.floor(Math.random() * array.length);
+        const result = array[randomIndex];
+        if (!result) {
+            throw new Error('array length is 0.');
+        }
+        return result;
+    }
+
+    const myNickname = `${pickRandom(adjectives)} ${pickRandom(animals)}`;
+
     formEl.addEventListener('submit', (event) => {
         event.preventDefault();
         const dataToSend = JSON.stringify({
-            nickname: 'kmwyatt',
+            nickname: myNickname,
             message: inputEl.value,
         });
         socket.send(dataToSend);
