@@ -25,13 +25,20 @@ app.ws.use(
     route.all('/ws', (ctx) => {
         ctx.websocket.on('message', (data) => {
             const { message, nickname } = JSON.parse(data);
+            const { server } = app.ws;
+
+            if (!server) {
+                return;
+            }
 
             const dataToSend = JSON.stringify({
                 message,
                 nickname,
             });
 
-            ctx.websocket.send(dataToSend);
+            server.clients.forEach((client) => {
+                client.send(dataToSend);
+            });
         });
     }),
 );
