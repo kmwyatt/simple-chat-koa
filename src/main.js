@@ -1,17 +1,18 @@
 // @ts-check
 
-const koa = require('koa');
+const Koa = require('koa');
+const Pug = require('koa-pug');
+const path = require('path');
 
-const app = new koa();
+const app = new Koa();
 
-app.use(async (ctx, next) => {
-    ctx.body = 'koa server';
-    await next();
-    ctx.body = `[${ctx.body}]`;
+new Pug({
+    viewPath: path.resolve(__dirname, './views'),
+    app,
 });
 
 app.use(async (ctx) => {
-    ctx.body = `<${ctx.body}>`;
+    await ctx.render('main');
 });
 
 app.listen(4000);
