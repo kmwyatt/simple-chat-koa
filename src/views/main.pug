@@ -2,4 +2,9 @@ html
     head
         script(src="https://cdn.tailwindcss.com")
     body
-        div.mx-4.my-4.bg-gray-200 pug installed
+        h1.bg-gradient-to-r.from-purple-100.to-gray-200.p-16.text-4xl.font-bold Simple Chat Practice
+        div.p-16.space-y-8
+            div.bg-gray-100.p-2 채팅 목록
+            form.space-x-4.flex
+                input.border.border-gray-200.p-4.rounded.flex-1(placeholder="채팅을 시작하세요.")
+                button.bg-blue-500.text-white.px-6.rounded 보내기
