@@ -13,7 +13,7 @@
     const chats = [];
 
     const adjectives = ['재미있는', '기가막힌', '잘생긴', '멋진'];
-    const animals = ['펭귄', '강아지', '사자', '독수리'];
+    const animals = ['펭귄', '강아지', '사자', '독수리', '사슴', '고양이'];
 
     function pickRandom(array) {
         const randomIndex = Math.floor(Math.random() * array.length);
@@ -36,9 +36,7 @@
         inputEl.value = '';
     });
 
-    socket.addEventListener('message', (event) => {
-        chats.push(JSON.parse(event.data));
-
+    function drawChats() {
         chatsEl.innerHTML = '';
 
         chats.forEach(({ message, nickname }) => {
@@ -46,5 +44,19 @@
             div.innerText = `${nickname}: ${message}`;
             chatsEl.appendChild(div);
         });
+    }
+
+    socket.addEventListener('message', (event) => {
+        const { type, payload } = JSON.parse(event.data);
+
+        if (type === 'sync') {
+            const { chats: syncedChats } = payload;
+            chats.push(...syncedChats);
+        } else if (type === 'chat') {
+            const chat = payload;
+            chats.push(chat);
+        }
+
+        drawChats();
     });
 })();
